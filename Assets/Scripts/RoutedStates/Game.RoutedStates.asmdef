@@ -1,0 +1,16 @@
+{
+    "name": "Game.RoutedStates",
+    "rootNamespace": "",
+    "references": [
+        "GUID:d0bf8f5aab59741e49a17f4a8dd06ed0"
+    ],
+    "includePlatforms": [],
+    "excludePlatforms": [],
+    "allowUnsafeCode": false,
+    "overrideReferences": false,
+    "precompiledReferences": [],
+    "autoReferenced": false,
+    "defineConstraints": [],
+    "versionDefines": [],
+    "noEngineReferences": false
+}
