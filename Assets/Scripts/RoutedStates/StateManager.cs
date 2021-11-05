@@ -2,10 +2,11 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
-using Game.States.StateExceptions;
 using UnityEngine;
+using Game.RoutedStates.States;
+using Game.RoutedStates.StateExceptions;
 
-namespace Game.States.StateManager
+namespace Game.RoutedStates
 {
     public class StateManager
     {

@@ -1,7 +1,7 @@
 using System;
 using System.Linq;
 
-namespace Game.States
+namespace Game.RoutedStates.States
 {
     public static class Routes
     {

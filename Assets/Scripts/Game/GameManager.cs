@@ -1,6 +1,6 @@
 using UnityEngine;
-using Game.States;
-using Game.States.StateManager;
+using Game.RoutedStates;
+using Game.RoutedStates.States;
 
 namespace Game
 {

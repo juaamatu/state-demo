@@ -1,9 +1,9 @@
 using System;
 using System.Collections.Generic;
-using Game.States;
-using Game.States.StateExceptions;
+using Game.RoutedStates.States;
+using Game.RoutedStates.StateExceptions;
 
-namespace Game.States.StateManager
+namespace Game.RoutedStates
 {
     internal static class CommonRouteSolver
     {

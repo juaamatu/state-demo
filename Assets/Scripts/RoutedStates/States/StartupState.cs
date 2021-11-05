@@ -1,7 +1,7 @@
 using System.Collections;
 using Game.SceneManagement;
 
-namespace Game.States
+namespace Game.RoutedStates.States
 {
     public class StartupState : IState
     {

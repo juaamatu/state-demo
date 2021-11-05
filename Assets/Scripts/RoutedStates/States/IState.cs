@@ -1,6 +1,6 @@
 using System.Collections;
 
-namespace Game.States
+namespace Game.RoutedStates.States
 {
     public interface IState
     {

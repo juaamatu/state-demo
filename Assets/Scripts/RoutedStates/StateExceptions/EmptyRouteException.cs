@@ -1,6 +1,6 @@
 using System;
 
-namespace Game.States.StateExceptions
+namespace Game.RoutedStates.StateExceptions
 {
     public class EmptyRouteException : Exception
     {
