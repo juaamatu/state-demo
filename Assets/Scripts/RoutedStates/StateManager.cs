@@ -36,7 +36,7 @@ namespace Game.RoutedStates
         public void SetRoute(Type[] route)
         {
             Type[] commonRoute = CommonRouteSolver.FindCommonRoute(currentRoute.Select(x => x.GetType()).ToArray(), route);
-             controller.StartCoroutine(Router(commonRoute, route));
+            controller.StartCoroutine(Router(commonRoute, route));
         }
 
         public StateManager(MonoBehaviour monoBehaviour)
