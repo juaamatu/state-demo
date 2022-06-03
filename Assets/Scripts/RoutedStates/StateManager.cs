@@ -2,6 +2,7 @@ using System;
 using System.Collections;
 using System.Collections.Generic;
 using System.Linq;
+using System.Threading.Tasks;
 using UnityEngine;
 using Game.RoutedStates.States;
 using Game.RoutedStates.StateExceptions;
@@ -10,14 +11,14 @@ namespace Game.RoutedStates
 {
     public class StateManager
     {
-        private readonly Stack<IState> currentRoute;
+        public Stack<IState> CurrentRoute { get; private set; }
         private readonly MonoBehaviour controller;
 
-        private IEnumerator Router(Type[] commonRoute, Type[] route)
+        private IEnumerator Router(Type[] commonRoute, Type[] route, TaskCompletionSource<bool> taskCompletionSource)
         {
-            while (currentRoute.Count > commonRoute.Length)
+            while (CurrentRoute.Count > commonRoute.Length)
             {
-                yield return currentRoute.Pop().OnExit();
+                yield return CurrentRoute.Pop().OnExit();
             }
 
             for (int i = commonRoute.Length; i < route.Length; i++)
@@ -28,20 +29,28 @@ namespace Game.RoutedStates
                 }
                 
                 IState state = (IState)Activator.CreateInstance(route[i]);
-                currentRoute.Push(state);
+                CurrentRoute.Push(state);
                 yield return state.OnEnter();
             }
+            taskCompletionSource.SetResult(true);
         }
 
-        public void SetRoute(Type[] route)
+        public Task SetRoute(Type[] route)
         {
-            Type[] commonRoute = CommonRouteSolver.FindCommonRoute(currentRoute.Select(x => x.GetType()).ToArray(), route);
-            controller.StartCoroutine(Router(commonRoute, route));
+            if (route.Length == 0)
+            {
+                throw new ArgumentException("Route can't be empty.", nameof(route));
+            }
+
+            TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
+            Type[] commonRoute = CommonRouteSolver.FindCommonRoute(CurrentRoute.Select(x => x.GetType()).ToArray(), route);
+            controller.StartCoroutine(Router(commonRoute, route, taskCompletionSource));
+            return taskCompletionSource.Task;
         }
 
         public StateManager(MonoBehaviour monoBehaviour)
         {
-            currentRoute = new Stack<IState>(new IState[] { new RootState() });
+            CurrentRoute = new Stack<IState>(new IState[] { new RootState() });
             controller = monoBehaviour;
         }
     }
