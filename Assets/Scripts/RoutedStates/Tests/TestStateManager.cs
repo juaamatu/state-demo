@@ -1,4 +1,3 @@
-using System;
 using Game.RoutedStates;
 using UnityEngine;
 
@@ -9,5 +8,6 @@ public class TestStateManager : MonoBehaviour
     public void Awake()
     {
         StateManager = new StateManager(this);
+        DontDestroyOnLoad(gameObject);
     }
 }

@@ -11,14 +11,17 @@ namespace Game.RoutedStates
 {
     public class StateManager
     {
-        public Stack<IState> CurrentRoute { get; private set; }
+        public IReadOnlyList<IState> CurrentRoute => currentRoute.AsReadOnly();
+
+        private readonly List<IState> currentRoute;
         private readonly MonoBehaviour controller;
 
         private IEnumerator Router(Type[] commonRoute, Type[] route, TaskCompletionSource<bool> taskCompletionSource)
         {
-            while (CurrentRoute.Count > commonRoute.Length)
+            while (currentRoute.Count > commonRoute.Length)
             {
-                yield return CurrentRoute.Pop().OnExit();
+                yield return currentRoute[currentRoute.Count - 1].OnExit();
+                currentRoute.RemoveAt(currentRoute.Count - 1);
             }
 
             for (int i = commonRoute.Length; i < route.Length; i++)
@@ -29,7 +32,7 @@ namespace Game.RoutedStates
                 }
                 
                 IState state = (IState)Activator.CreateInstance(route[i]);
-                CurrentRoute.Push(state);
+                currentRoute.Add(state);
                 yield return state.OnEnter();
             }
             taskCompletionSource.SetResult(true);
@@ -43,14 +46,14 @@ namespace Game.RoutedStates
             }
 
             TaskCompletionSource<bool> taskCompletionSource = new TaskCompletionSource<bool>();
-            Type[] commonRoute = CommonRouteSolver.FindCommonRoute(CurrentRoute.Select(x => x.GetType()).ToArray(), route);
+            Type[] commonRoute = CommonRouteSolver.FindCommonRoute(currentRoute.Select(x => x.GetType()).ToArray(), route);
             controller.StartCoroutine(Router(commonRoute, route, taskCompletionSource));
             return taskCompletionSource.Task;
         }
 
         public StateManager(MonoBehaviour monoBehaviour)
         {
-            CurrentRoute = new Stack<IState>(new IState[] { new RootState() });
+            currentRoute = new List<IState>(new IState[] { new RootState() });
             controller = monoBehaviour;
         }
     }
