@@ -1,8 +1,8 @@
-#Routed states
+# Routed states
 
 Routed states allows developers to easily stack and switch between states. There are no restrictions on how many states can be stacked and every new state is unique.
 
-##Glossary
+## Glossary
 
 - *State* is any arbitrary functionality that can be inserted to the game. State can be a UI view but can also be, for example, an input state where the state listens for certain type of input.
 - *Stacked state* means that states are stacked on top of each other. Each state in stack is active and can hook into game events. State is destroyed when it is popped from the stack.
