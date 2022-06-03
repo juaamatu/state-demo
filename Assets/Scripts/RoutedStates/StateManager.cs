@@ -9,6 +9,10 @@ using Game.RoutedStates.StateExceptions;
 
 namespace Game.RoutedStates
 {
+    /// <summary>
+    /// StateManager handles the state stack and changing of the states. StateManager offers an asynchronous interface for switching between states.
+    /// When switching from one route to another, StateManager preserves the common route of the old route and of the new route.
+    /// </summary>
     public class StateManager
     {
         public IReadOnlyList<IState> CurrentRoute => currentRoute.AsReadOnly();
@@ -38,6 +42,12 @@ namespace Game.RoutedStates
             taskCompletionSource.SetResult(true);
         }
 
+        /// <summary>
+        /// Set a new state stack with given route.
+        /// </summary>
+        /// <param name="route">Array of types that implement <see cref="IState"/>.</param>
+        /// <returns>A task that completes when new route is set.</returns>
+        /// <exception cref="ArgumentException"></exception>
         public Task SetRoute(Type[] route)
         {
             if (route.Length == 0)

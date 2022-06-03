@@ -2,6 +2,9 @@ using System;
 
 namespace Game.RoutedStates.StateExceptions
 {
+    /// <summary>
+    /// Exception thrown when some route has no states defined in it.
+    /// </summary>
     public class EmptyRouteException : Exception
     {
         public EmptyRouteException() : base() { }
